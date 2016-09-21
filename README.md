@@ -111,10 +111,15 @@ cmdToExec="${cmdToExec} -e USER_ID=${UID} -e USER_GP=`id -g` -e USER_NAME=${USER
 cmdToExec="${cmdToExec} --name=\"deck2pdf\" --rm"
 cmdToExec="${cmdToExec} -v `pwd`:/tmp -w/tmp dgricci/deck2pdf deck2pdf"
 while [ $# -gt 0 ]; do
+    # protect back argument containing IFS characters ...
+    arg="$1"
+    [ $(echo -n ";$arg;" | tr "$IFS" "_") != ";$arg;" ] && {
+        arg="\"$arg\""
+    }
     if [ -n "${noMoreOptions}" ] ; then
-        cmdToExec="${cmdToExec} $1"
+        cmdToExec="${cmdToExec} $arg"
     else
-        case $1 in
+        case $arg in
         --help|-h)
             run -1 "${cmdToExec} --help"
             usage 0
@@ -130,7 +135,7 @@ while [ $# -gt 0 ]; do
             [ -z "${noMoreOptions}" ] && {
                 noMoreOptions=true
             }
-            cmdToExec="${cmdToExec} $1"
+            cmdToExec="${cmdToExec} $arg"
             ;;
         esac
     fi
