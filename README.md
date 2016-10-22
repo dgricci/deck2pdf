@@ -1,13 +1,14 @@
 % Converts various HTML5 slide decks to PDF
 % Didier Richard
 % rév. 0.0.1 du 10/09/2016
+% rév. 0.0.2 du 20/10/2016
 
 ---
 
 # Building #
 
 ```bash
-$ docker build -t dgricci/deck2pdf:0.0.1 -t dgricci/deck2pdf:latest .
+$ docker build -t dgricci/deck2pdf:0.0.2 -t dgricci/deck2pdf:latest .
 ```
 
 ## Behind a proxy (e.g. 10.0.4.2:3128) ##
@@ -16,7 +17,7 @@ $ docker build -t dgricci/deck2pdf:0.0.1 -t dgricci/deck2pdf:latest .
 $ docker build \
     --build-arg http_proxy=http://10.0.4.2:3128/ \
     --build-arg https_proxy=http://10.0.4.2:3128/ \
-    -t dgricci/deck2pdf:0.0.1 -t dgricci/deck2pdf:latest .
+    -t dgricci/deck2pdf:0.0.2 -t dgricci/deck2pdf:latest .
 ```
 
 ## Build command with arguments default values ##
@@ -25,7 +26,7 @@ $ docker build \
 $ docker build \
     --build-arg DECK2PDF_VERSION=RELEASE_0_3_0 \
     --build-arg DECK2PDF_URL=https://github.com/melix/deck2pdf/archive/RELEASE_0_3_0.zip \
-    -t dgricci/pandoc:0.0.3 -t dgricci/pandoc:latest .
+    -t dgricci/deck2pdf:0.0.2 -t dgricci/pandoc:latest .
 ```
 
 # Use #
@@ -108,7 +109,7 @@ EOF
 #
 cmdToExec="docker run -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY"
 cmdToExec="${cmdToExec} -e USER_ID=${UID} -e USER_GP=`id -g` -e USER_NAME=${USER}"
-cmdToExec="${cmdToExec} --name=\"deck2pdf\" --rm"
+cmdToExec="${cmdToExec} --name=\"deck2pdf$$\" --rm"
 cmdToExec="${cmdToExec} -v `pwd`:/tmp -w/tmp dgricci/deck2pdf deck2pdf"
 while [ $# -gt 0 ]; do
     # protect back argument containing IFS characters ...

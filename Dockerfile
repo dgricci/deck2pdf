@@ -1,5 +1,5 @@
 ## deck2pdf tool
-FROM dgricci/javafx:0.0.1
+FROM dgricci/javafx:0.0.2
 MAINTAINER Didier Richard <didier.richard@ign.fr>
 
 ## different versions - use argument when defined otherwise use defaults
